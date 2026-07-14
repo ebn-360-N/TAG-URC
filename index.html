@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanisa Ticker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a2a;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #ticker-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: linear-gradient(135deg, #1a1a4e, #2d1b69);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Sehemu ya 1: Dynamic Title */
+        #section1 {
+            background: rgba(255, 215, 0, 0.15);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #section1 .content {
+            color: #ffd700;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            animation: scrollUp 8s linear infinite;
+            width: 100%;
+        }
+
+        /* Sehemu ya 2: Maombi na Uimbaaji */
+        #section2 {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4fc3f7;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            min-height: 120px;
+        }
+
+        #section2 .content {
+            color: #4fc3f7;
+            font-size: 2.2rem;
+            font-weight: 600;
+            text-align: center;
+            animation: scrollUp 10s linear infinite;
+            width: 100%;
+            padding: 10px;
+        }
+
+        /* Sehemu ya 3: Day and Time */
+        #section3 {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #888;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #section3 .content {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 300;
+            animation: scrollUp 6s linear infinite;
+            width: 100%;
+            letter-spacing: 2px;
+        }
+
+        /* Sehemu ya 4: Matangazo - Rangi Nyeupe */
+        #section4 {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #ffd700;
+        }
+
+        #section4 .content {
+            color: #1a1a4e;
+            font-size: 1.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+            animation: scrollRightToLeft 20s linear infinite;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @keyframes scrollUp {
+            0% {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes scrollRightToLeft {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Ticker pekee (bila matangazo) kwa media */
+        #ticker-only {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #section1 .content {
+                font-size: 1.5rem;
+            }
+            #section2 .content {
+                font-size: 1.3rem;
+            }
+            #section3 .content {
+                font-size: 1.2rem;
+            }
+            #section4 .content {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="ticker-container">
+        <!-- Section 1: Dynamic Title -->
+        <div id="section1">
+            <div class="content" id="dynamicTitle">UPDATES</div>
+        </div>
+
+        <!-- Section 2: Maombi na Uimbaaji -->
+        <div id="section2">
+            <div class="content" id="dynamicContent">Karibu Kanisani</div>
+        </div>
+
+        <!-- Section 3: Day and Time -->
+        <div id="section3">
+            <div class="content" id="dateTime">Loading...</div>
+        </div>
+
+        <!-- Section 4: Matangazo -->
+        <div id="section4">
+            <div class="content" id="announcements">📢 Karibu Sana</div>
+        </div>
+    </div>
+
+    <!-- Ticker pekee kwa media (haionekani) -->
+    <div id="ticker-only">
+        <!-- Hii itakuwa cloned version bila matangazo -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

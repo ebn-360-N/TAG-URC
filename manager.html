@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - Kanisa Ticker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1a1a4e;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #2d1b69;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        .card label {
+            display: block;
+            margin: 12px 0 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card input, .card textarea, .card select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .card input:focus, .card textarea:focus {
+            border-color: #ffd700;
+            outline: none;
+        }
+
+        .card textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .btn {
+            background: #ffd700;
+            color: #1a1a4e;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Preview ya Ticker */
+        .preview-container {
+            background: #0a0a2a;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .preview-container h2 {
+            color: #ffd700;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        #tickerPreview {
+            background: linear-gradient(135deg, #1a1a4e, #2d1b69);
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .preview-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .preview-item.title {
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .preview-item.content {
+            border: 2px solid #4fc3f7;
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-item.time {
+            border: 1px solid #888;
+            color: #ccc;
+            font-size: 1.3rem;
+        }
+
+        .preview-item.announce {
+            background: white;
+            color: #1a1a4e;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        /* Ticker View pekee (kwa media) */
+        .ticker-only-section {
+            margin-top: 30px;
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #4fc3f7;
+        }
+
+        .ticker-only-section h2 {
+            color: #4fc3f7;
+            border-bottom: 2px solid #4fc3f7;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        #tickerOnlyPreview {
+            background: #0a0a2a;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ticker-only-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            text-align: center;
+        }
+
+        .ticker-only-item.title-only {
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .ticker-only-item.content-only {
+            border: 2px solid #4fc3f7;
+            color: #4fc3f7;
+            font-size: 1.6rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ticker-only-item.time-only {
+            border: 1px solid #888;
+            color: #aaa;
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>🎯 Manager Dashboard - Kanisa Ticker</h1>
+
+        <div class="grid">
+            <!-- Card 1: Dynamic Title -->
+            <div class="card">
+                <h2>📌 Sehemu ya 1: Dynamic Title</h2>
+                <label>Badilisha Title (default: UPDATES)</label>
+                <input type="text" id="titleInput" placeholder="e.g Mahubiri, Ibada, Uimbaji, Kwaya" value="UPDATES">
+                <button class="btn" onclick="updateTitle()">✅ Update Title</button>
+            </div>
+
+            <!-- Card 2: Maombi na Uimbaaji -->
+            <div class="card">
+                <h2>🙏 Sehemu ya 2: Maombi na Uimbaaji</h2>
+                <label>Somo (linalofundishwa)</label>
+                <input type="text" id="somoInput" placeholder="Andika somo hapa...">
+                
+                <label>Tangazo (linalotangazwa)</label>
+                <input type="text" id="tangazoInput" placeholder="Andika tangazo hapa...">
+
+                <label>Chagua kinachoonekana:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="contentType" value="somo" checked> Somo
+                    </label>
+                    <label>
+                        <input type="radio" name="contentType" value="tangazo"> Tangazo
+                    </label>
+                </div>
+                <button class="btn" onclick="updateContent()">✅ Update Content</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Card 3: Matangazo (Rangi Nyeupe) -->
+            <div class="card">
+                <h2>📢 Sehemu ya 4: Matangazo</h2>
+                <label>Andika matangazo (tenganisha kwa koma)</label>
+                <textarea id="announceInput" placeholder="e.g CRDB: 01J2032214400, M-Pesa: 0682 657 080, YouTube: KanisaTV, Instagram: @kanisa"></textarea>
+                <button class="btn" onclick="updateAnnouncements()">✅ Update Matangazo</button>
+                <button class="btn btn-danger" onclick="resetAnnouncements()">🔄 Reset</button>
+            </div>
+
+            <!-- Card 4: Controls -->
+            <div class="card">
+                <h2>⚙️ Controls</h2>
+                <p style="color: #666; margin-bottom: 15px;">Hapa unaweza kuweka upya mipangilio yote</p>
+                <button class="btn btn-danger" onclick="resetAll()">🔄 Reset Everything</button>
+                <button class="btn" onclick="refreshPreview()" style="margin-top:10px;">👁️ Refresh Preview</button>
+            </div>
+        </div>
+
+        <!-- Preview ya Ticker (kama inavyoonekana) -->
+        <div class="preview-container">
+            <h2>📺 Ticker Preview (Kama inavyoonekana screen)</h2>
+            <div id="tickerPreview">
+                <div class="preview-item title" id="previewTitle">UPDATES</div>
+                <div class="preview-item content" id="previewContent">Karibu Kanisani</div>
+                <div class="preview-item time" id="previewTime">Loading...</div>
+                <div class="preview-item announce" id="previewAnnounce">📢 Karibu Sana</div>
+            </div>
+        </div>
+
+        <!-- Ticker View pekee (bila matangazo) kwa media -->
+        <div class="ticker-only-section">
+            <h2>📺 Ticker View Pekee (Bila Matangazo) - Kwa Media/Streaming</h2>
+            <div id="tickerOnlyPreview">
+                <div class="ticker-only-item title-only" id="tickerOnlyTitle">UPDATES</div>
+                <div class="ticker-only-item content-only" id="tickerOnlyContent">Karibu Kanisani</div>
+                <div class="ticker-only-item time-only" id="tickerOnlyTime">Loading...</div>
+            </div>
+            <p style="color: #aaa; margin-top: 10px; text-align: center;">⬆️ Hii ndio view itakayotumika kwenye media (OBS, YouTube, n.k)</p>
+        </div>
+    </div>
+
+    <script src="manager-script.js"></script>
+</body>
+</html>
